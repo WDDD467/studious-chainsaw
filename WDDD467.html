@@ -5,23 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>皱皮你崛起吧</title>
     <style>
-        /* 原有样式保持不变 */
+        /* 基础样式 */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background: #f8f9fa;
             min-height: 100vh;
-            position: relative; /* 为按钮定位准备 */
+            padding-bottom: 120px; /* 为底部按钮留出空间 */
         }
 
-        /* 新增交互样式 */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+
+        /* 图片展示区域 */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .photo {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            padding: 15px;
+        }
+
+        /* 交互按钮区域 */
         .interaction-section {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             z-index: 1000;
         }
 
@@ -33,101 +66,92 @@
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
         .action-button:hover {
             background-color: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+            transform: scale(1.05);
         }
 
-        .display-text {
+        /* 随机文字样式 */
+        .text-container {
             margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .random-text {
             font-size: 24px;
             color: #dc3545;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 历史记录样式 */
-        .history-container {
-            position: fixed;
-            bottom: 100px;
-            left: 20px;
-            background: rgba(255,255,255,0.9);
-            padding: 10px;
+            padding: 5px 15px;
+            background: rgba(220,53,69,0.1);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <!-- 原有内容保持不变 -->
     <h1>呵呵，打集爽</h1>
+
+    <!-- 图片展示 -->
     <div class="gallery-container">
-        <!-- 原有图片容器 -->
+        <div class="photo-container">
+            <img src="1.jpg" alt="嘻嘻" class="photo">
+        </div>
+        <div class="photo-container">
+            <img src="2.jpg" alt="我要赢" class="photo">
+        </div>
     </div>
 
-    <!-- 新增交互模块 -->
+    <!-- 交互区域 -->
     <div class="interaction-section">
-        <button class="action-button" id="actionBtn">嘻嘻</button>
-        <div id="textDisplay"></div>
+        <button class="action-button" id="actionBtn">执行战术指令</button>
+        <div class="text-container" id="textContainer"></div>
     </div>
-
-    <!-- 历史记录面板 -->
-    <div class="history-container" id="historyPanel">
-        <h3>我要赢：</h3>
-        <div id="historyList"></div>
-    </div>
-
-    <!-- 原有模态框保持不变 -->
 
     <script>
-        // 原有图片相关脚本保持不变
-
-        // 新增交互功能脚本
-        const actionBtn = document.getElementById('actionBtn');
-        const textDisplay = document.getElementById('textDisplay');
-        const historyList = document.getElementById('historyList');
-        
-        let commandCount = 0;
-
-        actionBtn.addEventListener('click', () => {
-            commandCount++;
-            
-            // 创建新文本元素
+        // 随机生成文字
+        function generateRandomText() {
+            const textContainer = document.getElementById('textContainer');
             const newText = document.createElement('div');
-            newText.className = 'display-text';
+            newText.className = 'random-text';
             newText.textContent = '奎隆跪下';
             
-            // 添加执行时间戳
-            const timestamp = new Date().toLocaleTimeString();
-            const historyItem = document.createElement('div');
-            historyItem.textContent = `${timestamp} 第${commandCount}次执行`;
-            historyItem.style.color = '#dc3545';
-            historyItem.style.margin = '5px 0';
+            // 随机颜色和大小
+            const randomSize = Math.floor(Math.random() * 10) + 20; // 20-30px
+            const randomColor = `rgba(${Math.floor(Math.random() * 200)}, 
+                               ${Math.floor(Math.random() * 50)}, 
+                               ${Math.floor(Math.random() * 50)}, 1)`;
             
-            // 添加到页面
-            textDisplay.appendChild(newText);
-            historyList.appendChild(historyItem);
+            newText.style.fontSize = `${randomSize}px`;
+            newText.style.color = randomColor;
+            
+            textContainer.appendChild(newText);
             
             // 自动滚动到最新内容
             window.scrollTo({
                 top: document.body.scrollHeight,
                 behavior: 'smooth'
             });
-        });
+        }
 
-        // 初始化历史面板
-        historyPanel.style.display = commandCount > 0 ? 'block' : 'none';
+        // 按钮点击事件
+        document.getElementById('actionBtn').addEventListener('click', generateRandomText);
+
+        // 初始加载生成3个文字
+        for(let i = 0; i < 3; i++) {
+            generateRandomText();
+        }
     </script>
 </body>
 </html>
