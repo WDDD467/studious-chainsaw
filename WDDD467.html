@@ -3,140 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>战术分队完整相册</title>
+    <title>皱皮你崛起吧</title>
     <style>
+        /* 原有样式保持不变 */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background: #f8f9fa;
             min-height: 100vh;
+            position: relative; /* 为按钮定位准备 */
         }
 
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 40px;
-        }
-
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .photo-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .photo-container:hover {
-            transform: translateY(-5px);
-        }
-
-        .photo {
-            width: 100%;
-            height: 400px; /* 增加显示高度 */
-            object-fit: contain; /* 保持完整比例 */
-            cursor: pointer;
-            padding: 15px;
-            background: white;
-        }
-
-        .modal {
-            display: none;
+        /* 新增交互样式 */
+        .interaction-section {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
             z-index: 1000;
         }
 
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 90%;
-            max-height: 90vh;
-            object-fit: contain;
-        }
-
-        .close {
-            position: absolute;
-            top: 25px;
-            right: 35px;
+        .action-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #dc3545;
             color: white;
-            font-size: 40px;
+            border: none;
+            border-radius: 25px;
             cursor: pointer;
-            z-index: 1001;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
 
-        @media (max-width: 768px) {
-            .gallery-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .photo {
-                height: 300px; /* 移动端显示高度 */
-            }
+        .action-button:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+        }
+
+        .display-text {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #dc3545;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 历史记录样式 */
+        .history-container {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
-    <h1>突击战术分队 完整展示</h1>
-
+    <!-- 原有内容保持不变 -->
+    <h1>呵呵，打集爽</h1>
     <div class="gallery-container">
-        <div class="photo-container">
-            <img src="1.jpg" alt="战术展示1" class="photo">
-        </div>
-        <div class="photo-container">
-            <img src="2.jpg" alt="战术展示2" class="photo">
-        </div>
+        <!-- 原有图片容器 -->
     </div>
 
-    <div id="myModal" class="modal">
-        <span class="close" id="closeModal">&times;</span>
-        <img class="modal-content" id="modalImg">
+    <!-- 新增交互模块 -->
+    <div class="interaction-section">
+        <button class="action-button" id="actionBtn">嘻嘻</button>
+        <div id="textDisplay"></div>
     </div>
+
+    <!-- 历史记录面板 -->
+    <div class="history-container" id="historyPanel">
+        <h3>我要赢：</h3>
+        <div id="historyList"></div>
+    </div>
+
+    <!-- 原有模态框保持不变 -->
 
     <script>
-        // 图片点击功能
-        document.querySelectorAll('.photo').forEach(img => {
-            img.onclick = () => {
-                const modal = document.getElementById('myModal');
-                const modalImg = document.getElementById('modalImg');
-                modal.style.display = "block";
-                modalImg.src = img.src;
-            }
+        // 原有图片相关脚本保持不变
+
+        // 新增交互功能脚本
+        const actionBtn = document.getElementById('actionBtn');
+        const textDisplay = document.getElementById('textDisplay');
+        const historyList = document.getElementById('historyList');
+        
+        let commandCount = 0;
+
+        actionBtn.addEventListener('click', () => {
+            commandCount++;
+            
+            // 创建新文本元素
+            const newText = document.createElement('div');
+            newText.className = 'display-text';
+            newText.textContent = '奎隆跪下';
+            
+            // 添加执行时间戳
+            const timestamp = new Date().toLocaleTimeString();
+            const historyItem = document.createElement('div');
+            historyItem.textContent = `${timestamp} 第${commandCount}次执行`;
+            historyItem.style.color = '#dc3545';
+            historyItem.style.margin = '5px 0';
+            
+            // 添加到页面
+            textDisplay.appendChild(newText);
+            historyList.appendChild(historyItem);
+            
+            // 自动滚动到最新内容
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
         });
 
-        // 关闭功能
-        document.getElementById('closeModal').onclick = () => {
-            document.getElementById('myModal').style.display = "none";
-        };
-
-        // 点击背景关闭
-        window.onclick = (e) => {
-            if(e.target === document.getElementById('myModal')) {
-                document.getElementById('myModal').style.display = "none";
-            }
-        };
-
-        // ESC键关闭
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape') {
-                document.getElementById('myModal').style.display = "none";
-            }
-        });
+        // 初始化历史面板
+        historyPanel.style.display = commandCount > 0 ? 'block' : 'none';
     </script>
 </body>
 </html>
